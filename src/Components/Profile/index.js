@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 import avatar from '../../assets/avatar.png';
@@ -11,6 +11,11 @@ import {
 } from './styles';
 
 const Profile = ({ direction, username, name, usidebar = false, img, isOwner = false }) => {
+
+    const usernameMemo = useMemo(() => {
+        return (username.length > 11) ? username.substring(0, 11) + '...' : username;
+    }, [username]);
+
     return (
         <Container direction={direction} usidebar={usidebar}>
             <Link to={`/profile/${username}`}>
@@ -22,7 +27,7 @@ const Profile = ({ direction, username, name, usidebar = false, img, isOwner = f
             </Link>
             <div>
                 <Link to={`/profile/${username}`}>
-                    {username && <Username usidebar={usidebar}>{username}</Username>}
+                    {username && <Username usidebar={usidebar}>{usernameMemo}</Username>}
                 </Link>
                 {name && <Name>{name}</Name>}
             </div>

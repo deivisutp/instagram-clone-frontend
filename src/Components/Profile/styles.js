@@ -62,7 +62,7 @@ export const Username = styled.div`
   }
 `;
 
-export const Name = styled.div`
+export const Name = styled.p`
   color: #2c2c2c;
   letter-spacing: 0.4px;
 

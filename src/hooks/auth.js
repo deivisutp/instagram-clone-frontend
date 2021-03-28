@@ -17,23 +17,27 @@ const AuthProvider = ({ children }) => {
     });
 
     const signIn = useCallback(async (username, password) => {
-        const auth = await api.post('/auth', { username, password });
+        try {
+            const auth = await api.post('/auth', { username, password });
 
-        if (auth.status === 200) {
-            const { token } = auth.data;
+            if (auth.status === 200) {
+                const { token } = auth.data;
 
-            api.defaults.headers.authorization = `Bearer ${token}`;
+                api.defaults.headers.authorization = `Bearer ${token}`;
 
-            const user = await api.get('/auth/me');
-            console.log(user);
+                const user = await api.get('/auth/me');
+                console.log(user);
 
-            localStorage.setItem('@Photogram:token', token);
-            localStorage.setItem('@Photogram:user', JSON.stringify(user.data));
+                localStorage.setItem('@Photogram:token', token);
+                localStorage.setItem('@Photogram:user', JSON.stringify(user.data));
 
-            setData({
-                user: user.data,
-                token,
-            });
+                setData({
+                    user: user.data,
+                    token,
+                });
+            }
+        } catch (error) {
+            console.log(error);
         }
     }, []);
 
