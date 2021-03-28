@@ -29,25 +29,24 @@ const Upload = () => {
 
         setDisabled(true);
         uploadPhotoAction(dataImage);
-    }, [body]);
+    }, [body, uploadPhotoAction]);
 
     const handleInputFile = useCallback((file) => {
         resetValues();
-        setBody('');
+
         if (file.target.files[0]) {
             setImage(URL.createObjectURL(file.target.files[0]));
+            setDisabled(false);
         } else {
             setImage('');
         }
 
         inputBody.current.focus();
-    }, []);
+    }, [resetValues]);
 
     const handleBody = useCallback((e) => {
         setBody(e.target.value);
-        body.trim().length > 0 ? setDisabled(false) : setDisabled(true);
-
-    }, [body]);
+    }, []);
 
     return (
         <Container onSubmit={handlerUpload} enctype="multipart/form-data">
@@ -78,7 +77,7 @@ const Upload = () => {
                 ref={inputBody}
             ></Body>
 
-            <Button type="submit" display={disabled} error={error} >
+            <Button type="submit" disabled={disabled} error={error} >
                 {loading ? "Loading..." : error ? "Image size not allowed" : "Publish"}
             </Button>
         </Container>

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { FiUpload } from 'react-icons/fi';
 
 import { StyledModal } from './styles';
@@ -28,6 +28,14 @@ const ModalUploadPhoto = () => {
             setOpacity(1);
         }, 100);
     }, []);
+
+    useEffect(() => {
+        if (data) {
+            toggleModal();
+            //addFeed(data);
+            resetValues();
+        }
+    }, [data, resetValues, toggleModal]);
 
     return (
         <>
