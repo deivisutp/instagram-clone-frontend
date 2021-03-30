@@ -36,8 +36,6 @@ const SignUp = () => {
 
             await schema.validate(data, { abortEarly: false });
 
-            console.log(process.env.API_URL);
-            console.log(process.env.APP_URL);
             await api.post('/users', data);
 
             toast.success('Successfull registered!');

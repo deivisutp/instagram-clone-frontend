@@ -4,6 +4,7 @@ import { AuthProvider } from './auth';
 import { UploadProvider } from './upload';
 import { SearchProvider } from './search';
 import { FollowProvider } from './follow';
+import { FeedProvider } from './feed';
 
 const Providers = ({ children }) => {
     return (
@@ -11,7 +12,9 @@ const Providers = ({ children }) => {
             <UploadProvider>
                 <SearchProvider>
                     <FollowProvider>
-                        {children}
+                        <FeedProvider>
+                            {children}
+                        </FeedProvider>
                     </FollowProvider>
                 </SearchProvider>
             </UploadProvider>

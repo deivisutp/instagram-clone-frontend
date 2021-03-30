@@ -15,13 +15,17 @@ import {
     ContainerFeeds,
     Container
 } from './styles';
+import { useFeed } from '../../hooks/feed';
+import CardFeed from '../../Components/CardFeed';
 
 const Main = () => {
     const { user } = useAuth();
-    const { follows, loading, getFollows, removeFollow } = useFollow();
+    const { follows, loading, getFollows } = useFollow();
+    const { feeds, loading: feedLoading, totalFeeds, getFeeds } = useFeed();
 
     useEffect(() => {
         getFollows();
+        getFeeds();
     }, []);
 
     return (
@@ -65,7 +69,12 @@ const Main = () => {
                 </Aside>
 
                 <ContainerFeeds>
-                    <p>Feed</p>
+                    {feeds &&
+                        feeds.map(feed => <CardFeed key={feed.photo.id} feed={feed} />)}
+
+                    {feedLoading && (
+                        <Spinner />
+                    )}
                 </ContainerFeeds>
             </Container>
         </Layout>

@@ -26,7 +26,6 @@ const AuthProvider = ({ children }) => {
                 api.defaults.headers.authorization = `Bearer ${token}`;
 
                 const user = await api.get('/auth/me');
-                console.log(user);
 
                 localStorage.setItem('@Photogram:token', token);
                 localStorage.setItem('@Photogram:user', JSON.stringify(user.data));
