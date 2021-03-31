@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useCallback, useState } from 'react';
+import { toast } from 'react-toastify';
 import api from '../services/api';
 
 const AuthContext = createContext();
@@ -36,7 +37,7 @@ const AuthProvider = ({ children }) => {
                 });
             }
         } catch (error) {
-            console.log(error);
+            toast.error(error);
         }
     }, []);
 

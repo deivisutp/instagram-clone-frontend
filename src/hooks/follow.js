@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
+import { toast } from 'react-toastify';
 import api from '../services/api';
 
 const FollowContext = createContext();
@@ -20,7 +21,7 @@ const FollowProvider = ({ children }) => {
                 setFollows(res.data);
             }
         } catch (error) {
-            throw Error(error);
+            toast.error(error);
         } finally {
             setLoading(false);
         }
