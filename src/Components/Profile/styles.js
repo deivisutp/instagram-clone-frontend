@@ -52,13 +52,20 @@ export const Img = styled.img`
   }
 `;
 
-export const Username = styled.div`
+export const Username = styled.p`
   font: bold 13.5px "Roboto";
   color: #2c2c2c;
   letter-spacing: 0.4px;
 
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 200px;
+
   @media (max-width: 1000px) {
     font: ${props => (props.usidebar ? "normal 13.5px Roboto" : "")};
+    width: 100px;
+    text-align: center;
   }
 `;
 

@@ -98,13 +98,13 @@ const CardFeed = ({ feed }) => {
                     <FaHeart
                         onClick={() => toggleLike(photo.id)}
                         size={20}
-                        style={{ color: "#FC4850", marginRight: 10 }}
+                        style={{ color: "#FC4850", marginRight: 10, cursor: 'pointer' }}
                     />
                 ) : (
                     <FiHeart
                         onClick={() => toggleLike(photo.id)}
                         size={20}
-                        style={{ marginRight: 10 }}
+                        style={{ marginRight: 10, cursor: 'pointer' }}
                     />
                 )}
 

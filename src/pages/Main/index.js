@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Profile from '../../Components/Profile';
 import Spinner from '../../Components/Spinner';
 import EmptyMessage from '../../Components/EmptyMessage';
@@ -19,13 +19,14 @@ import { useFeed } from '../../hooks/feed';
 import CardFeed from '../../Components/CardFeed';
 
 const Main = () => {
+    const [page, setPage] = useState(0);
     const { user } = useAuth();
     const { follows, loading, getFollows } = useFollow();
     const { feeds, loading: feedLoading, totalFeeds, getFeeds } = useFeed();
 
     useEffect(() => {
         getFollows();
-        getFeeds();
+        getFeeds(page);
     }, []);
 
     return (
@@ -71,6 +72,10 @@ const Main = () => {
                 <ContainerFeeds>
                     {feeds &&
                         feeds.map(feed => <CardFeed key={feed.photo.id} feed={feed} />)}
+
+                    {!!feeds && feeds.length > 0 && (
+                        <button type="button">See more...</button>
+                    )}
 
                     {feedLoading && (
                         <Spinner />

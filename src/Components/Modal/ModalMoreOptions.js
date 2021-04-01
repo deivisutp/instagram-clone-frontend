@@ -1,10 +1,16 @@
 import React, { useState, useCallback } from 'react';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
+import { useFeed } from '../../hooks/feed';
+import { useFollow } from '../../hooks/follow';
 
 import { StyledModal, MoreOptions } from './styles';
 
 const ModalMoreOptions = ({ isAuthor, photo }) => {
+
+    const { deletePhotoAction, deleteFollowAction } = useFeed();
+    const { removeFollow } = useFollow();
+
     const [isOpen, setIsOpen] = useState(false);
     const [opacity, setOpacity] = useState(0);
 
@@ -25,6 +31,17 @@ const ModalMoreOptions = ({ isAuthor, photo }) => {
         }, 100);
     }, []);
 
+    const handleDelete = useCallback((photo) => {
+        deletePhotoAction(photo);
+        toggleModal();
+    }, [toggleModal, deletePhotoAction]);
+
+    const handleFollow = useCallback((idUser) => {
+        deleteFollowAction(idUser);
+        removeFollow(idUser);
+        toggleModal();
+    }, [deleteFollowAction, toggleModal]);
+
     return (
         <>
             <FiMoreHorizontal size={20} style={{ cursor: 'pointer' }} onClick={toggleModal} />
@@ -40,7 +57,7 @@ const ModalMoreOptions = ({ isAuthor, photo }) => {
                 {isAuthor ? (
                     <MoreOptions>
                         <li>Go to the post</li>
-                        <li className="red" onClick={() => { }}>Remove</li>
+                        <li className="red" onClick={() => handleDelete(photo)}>Remove</li>
                         <li onClick={toggleModal}>Cancel</li>
                     </MoreOptions>
                 ) : (
@@ -48,7 +65,7 @@ const ModalMoreOptions = ({ isAuthor, photo }) => {
                         <li>
                             <Link to={`/photo/${photo.id}`}>Go to the post</Link>
                         </li>
-                        <li className="red" onClick={() => { }}>Unfollow</li>
+                        <li className="red" onClick={() => handleFollow(photo.user_id)}>Unfollow</li>
                         <li onClick={toggleModal}>Cancel</li>
                     </MoreOptions>
                 )}

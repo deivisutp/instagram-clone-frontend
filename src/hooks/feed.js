@@ -1,29 +1,29 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
+import { toast } from 'react-toastify';
 import api from '../services/api';
 
 const FeedContext = createContext();
 
 const FeedProvider = ({ children }) => {
     const [feeds, setFeeds] = useState([]);
-    const [page, setPage] = useState(0);
     const [totalFeeds, setTotalFeeds] = useState(null);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState(null);
     const [error, setError] = useState(null);
 
-    const getFeeds = useCallback(async () => {
+    const getFeeds = useCallback(async (page = 0) => {
         try {
             setError(null);
             setLoading(true);
             const res = await api.get("/feeds", {
                 params: {
                     page,
-                    pageSize: 12
+                    pageSize: 3
                 }
             });
 
             if (res.status === 200) {
-                setFeeds(res.data);
+                setFeeds((state) => [...state, ...res.data]);
                 setTotalFeeds(res.headers["x-total-count"]);
             }
         } catch (error) {
@@ -34,8 +34,38 @@ const FeedProvider = ({ children }) => {
         }
     }, []);
 
+    const deletePhotoAction = useCallback(async (photo) => {
+        try {
+            const res = await api.delete(`/photos/${photo.id}`, {
+                params: { key: photo.key }
+            });
+
+            if (res.status === 200) {
+                setFeeds((state) => state.filter((item) => item.photo.id !== photo.id));
+            }
+        } catch (error) {
+            toast.error("Delete error");
+        }
+    }, []);
+
+    const deleteFollowAction = useCallback(async (idUser) => {
+        try {
+            const res = await api.post(`/follows/${idUser}`);
+
+            if (res.status === 200) {
+                setFeeds((state) => state.filter((item) => item.photo.user_id !== idUser));
+            }
+        } catch (error) {
+            toast.error("Unfollow error");
+        }
+    }, []);
+
+    const addFeed = useCallback((data) => {
+        setFeeds((state) => [data, ...state]);
+    }, []);
+
     return (
-        <FeedContext.Provider value={{ feeds, totalFeeds, loading, getFeeds }}>
+        <FeedContext.Provider value={{ feeds, totalFeeds, loading, getFeeds, deletePhotoAction, deleteFollowAction, addFeed }}>
             {children}
         </FeedContext.Provider>
     )
