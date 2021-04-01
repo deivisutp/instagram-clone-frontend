@@ -8,17 +8,14 @@ const FeedProvider = ({ children }) => {
     const [feeds, setFeeds] = useState([]);
     const [totalFeeds, setTotalFeeds] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState(null);
-    const [error, setError] = useState(null);
 
     const getFeeds = useCallback(async (page = 0) => {
         try {
-            setError(null);
             setLoading(true);
             const res = await api.get("/feeds", {
                 params: {
                     page,
-                    pageSize: 3
+                    pageSize: 12
                 }
             });
 
@@ -28,7 +25,6 @@ const FeedProvider = ({ children }) => {
             }
         } catch (error) {
             console.log(error.response);
-            setError("Error" + error)
         } finally {
             setLoading(false);
         }
