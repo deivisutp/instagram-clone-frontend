@@ -38,7 +38,7 @@ const Header = () => {
         return () => {
             setUsers([]);
         }
-    }, [searchAction, term, setUsers]);
+    }, [searchAction, term, setUsers, setLoading]);
 
     const toggleClose = () => {
         setTerm("");

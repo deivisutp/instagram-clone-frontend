@@ -61,7 +61,7 @@ const FeedProvider = ({ children }) => {
     }, []);
 
     return (
-        <FeedContext.Provider value={{ feeds, totalFeeds, loading, getFeeds, deletePhotoAction, deleteFollowAction, addFeed }}>
+        <FeedContext.Provider value={{ feeds, totalFeeds, loading, getFeeds, deletePhotoAction, deleteFollowAction, addFeed, setFeeds }}>
             {children}
         </FeedContext.Provider>
     )

@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 
 import Profile from '../../Components/Profile';
 import api from '../../services/api';
+
+import { FaHeart } from 'react-icons/fa';
+import { FiHeart } from 'react-icons/fi';
+
+import { toast } from 'react-toastify';
 
 import TimeAgo from 'react-timeago';
 import englishString from 'react-timeago/lib/language-strings/en';
@@ -47,6 +52,16 @@ const Post = () => {
         }
         getPost();
     }, [photo_id]);
+
+    const toggleLike = useCallback(async (photo_id) => {
+        const res = await api.post(`/likes/${photo_id}`);
+
+        if (res.status === 200) {
+            setIsLiked(!isLiked);
+        } else {
+            toast.error("It was not possible to change it");
+        }
+    }, [isLiked]);
 
     if (!post) {
         return (
@@ -96,7 +111,19 @@ const Post = () => {
 
                         <ContainerOptions>
                             <span>{post.LikesCount} Likes</span>
-                            <div>Like button</div>
+                            {isLiked ? (
+                                <FaHeart
+                                    onClick={() => toggleLike(post.id)}
+                                    size={20}
+                                    style={{ color: "#FC4850", marginRight: 10, cursor: 'pointer' }}
+                                />
+                            ) : (
+                                <FiHeart
+                                    onClick={() => toggleLike(post.id)}
+                                    size={20}
+                                    style={{ marginRight: 10, cursor: 'pointer' }}
+                                />
+                            )}
                         </ContainerOptions>
 
                         <ContainerComment>

@@ -40,7 +40,7 @@ const ModalMoreOptions = ({ isAuthor, photo }) => {
         deleteFollowAction(idUser);
         removeFollow(idUser);
         toggleModal();
-    }, [deleteFollowAction, toggleModal]);
+    }, [deleteFollowAction, removeFollow, toggleModal]);
 
     return (
         <>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Profile from '../../Components/Profile';
 import Spinner from '../../Components/Spinner';
 import EmptyMessage from '../../Components/EmptyMessage';
@@ -17,17 +17,21 @@ import {
 } from './styles';
 import { useFeed } from '../../hooks/feed';
 import CardFeed from '../../Components/CardFeed';
-import { useHistory } from 'react-router';
 
 const Main = () => {
     const [page, setPage] = useState(0);
     const { user } = useAuth();
     const { follows, loading, getFollows } = useFollow();
-    const { feeds, loading: feedLoading, totalFeeds, getFeeds } = useFeed();
+    const { feeds, loading: feedLoading, totalFeeds, getFeeds, setFeeds } = useFeed();
 
     useEffect(() => {
         getFollows();
         getFeeds(page);
+
+        return () => {
+            setFeeds([]);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {

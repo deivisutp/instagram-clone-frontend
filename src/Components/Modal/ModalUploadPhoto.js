@@ -14,9 +14,9 @@ const ModalUploadPhoto = () => {
     const { data, resetValues } = useUpload();
     const { addFeed } = useFeed();
 
-    function toggleModal(e) {
-        setIsOpen(!isOpen);
-    }
+    const toggleModal = useCallback(() => {
+        setIsOpen(!isOpen)
+    }, [isOpen]);
 
     const beforeClose = useCallback(() => {
         return new Promise(resolve => {
@@ -37,7 +37,7 @@ const ModalUploadPhoto = () => {
             addFeed(data);
             resetValues();
         }
-    }, [data, resetValues, toggleModal]);
+    }, [addFeed, data, resetValues, toggleModal]);
 
     return (
         <>
