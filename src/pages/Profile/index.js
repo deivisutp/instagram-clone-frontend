@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import Layout from '../Layout';
@@ -17,10 +17,13 @@ import {
     Photo
 } from './styles';
 import api from '../../services/api';
+import { useFeed } from '../../hooks/feed';
 
 const Profile = () => {
 
     const { username } = useParams();
+
+    const { deleteFollowAction } = useFeed();
 
     const [loading, setLoading] = useState(false);
 
@@ -65,6 +68,18 @@ const Profile = () => {
         return user && user.id ? false : true;
     }, [user]);
 
+    const handleFollowButton = useCallback(async (id) => {
+        try {
+            setLoading(true);
+            deleteFollowAction(id);
+            setIsFollow(!isFollow);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
+    }, [deleteFollowAction, isFollow]);
+
     if (loadingMemo) {
         return <p>Loading...</p>
     }
@@ -85,14 +100,14 @@ const Profile = () => {
                             <Button>Edit profile</Button>
                         ) : isFollow ? (
                             <ButtonFollow
-                                onClick={() => { }}
+                                onClick={() => handleFollowButton(user.id)}
                                 disabled={loading ? true : false}
                             >
                                 {loading ? "Loading..." : "Following"}
                             </ButtonFollow>
                         ) : (
                             <ButtonFollow
-                                onClick={() => { }}
+                                onClick={() => handleFollowButton(user.id)}
                                 disabled={loading ? true : false}
                             >
                                 {loading ? "Loading..." : "Follow"}
