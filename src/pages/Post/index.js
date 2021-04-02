@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
+
 import Profile from '../../Components/Profile';
 import api from '../../services/api';
 
@@ -8,8 +9,6 @@ import englishString from 'react-timeago/lib/language-strings/en';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 
 import Layout from '../Layout';
-
-import avatar from '../../assets/avatar.png';
 
 import {
     Container,
