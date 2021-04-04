@@ -22,7 +22,7 @@ const UploadProvider = ({ children }) => {
                 setData(res.data);
             }
         } catch (error) {
-            if (error.response.status === 500) {
+            if (error) {
                 setError(true);
             }
         } finally {
