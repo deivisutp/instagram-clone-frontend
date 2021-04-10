@@ -13,6 +13,7 @@ const FadingBackground = styled(BaseModalBackground)`
   transition: opacity ease 200ms;
 `;
 
+
 function App() {
   return (
     <Providers>
