@@ -50,7 +50,7 @@ const SignUp = () => {
                 return;
             }
 
-            toast.error(error.response.data.message);
+            toast.error(error);
         }
     }, [history]);
 
